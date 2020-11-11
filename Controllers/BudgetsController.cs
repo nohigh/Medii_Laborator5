@@ -11,48 +11,48 @@ namespace Nohai_Dragos_Lab5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExpensesController : ControllerBase
+    public class BudgetsController : ControllerBase
     {
         private readonly ExpenseContext _context;
 
-        public ExpensesController(ExpenseContext context)
+        public BudgetsController(ExpenseContext context)
         {
             _context = context;
         }
 
-        // GET: api/Expenses
+        // GET: api/Budgets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpense()
+        public async Task<ActionResult<IEnumerable<Budget>>> GetBudget()
         {
-            return await _context.ExpenseDTO.ToListAsync();
+            return await _context.Budget.ToListAsync();
         }
 
-        // GET: api/Expenses/5
+        // GET: api/Budgets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ExpenseDTO>> GetExpense(int id)
+        public async Task<ActionResult<Budget>> GetBudget(int id)
         {
-            var expense = await _context.ExpenseDTO.FindAsync(id);
+            var budget = await _context.Budget.FindAsync(id);
 
-            if (expense == null)
+            if (budget == null)
             {
                 return NotFound();
             }
 
-            return expense;
+            return budget;
         }
 
-        // PUT: api/Expenses/5
+        // PUT: api/Budgets/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutExpense(int id, ExpenseDTO expense)
+        public async Task<IActionResult> PutBudget(int id, Budget budget)
         {
-            if (id != expense.Id)
+            if (id != budget.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(expense).State = EntityState.Modified;
+            _context.Entry(budget).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Nohai_Dragos_Lab5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ExpenseExists(id))
+                if (!BudgetExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace Nohai_Dragos_Lab5.Controllers
             return NoContent();
         }
 
-        // POST: api/Expenses
+        // POST: api/Budgets
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ExpenseDTO>> PostExpense(ExpenseDTO expense)
+        public async Task<ActionResult<Budget>> PostBudget(Budget budget)
         {
-            _context.ExpenseDTO.Add(expense);
+            _context.Budget.Add(budget);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetExpense), new { id = expense.Id }, expense);
+            return CreatedAtAction("GetBudget", new { id = budget.Id }, budget);
         }
 
-        // DELETE: api/Expenses/5
+        // DELETE: api/Budgets/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ExpenseDTO>> DeleteExpense(int id)
+        public async Task<ActionResult<Budget>> DeleteBudget(int id)
         {
-            var expense = await _context.ExpenseDTO.FindAsync(id);
-            if (expense == null)
+            var budget = await _context.Budget.FindAsync(id);
+            if (budget == null)
             {
                 return NotFound();
             }
 
-            _context.ExpenseDTO.Remove(expense);
+            _context.Budget.Remove(budget);
             await _context.SaveChangesAsync();
 
-            return expense;
+            return budget;
         }
 
-        private bool ExpenseExists(int id)
+        private bool BudgetExists(int id)
         {
-            return _context.ExpenseDTO.Any(e => e.Id == id);
+            return _context.Budget.Any(e => e.Id == id);
         }
     }
 }
